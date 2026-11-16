@@ -4,9 +4,14 @@
     "hero": {
       "type": "hero",
       "settings": {}
+    },
+    "featured_products": {
+      "type": "featured-collection",
+      "settings": {}
     }
   },
   "order": [
-    "hero"
+    "hero",
+    "featured_products"
   ]
 }
