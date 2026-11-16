@@ -1,0 +1,164 @@
+
+<section class="apex-product-page">
+  <div class="apex-product-layout">
+    <div class="apex-product-image">
+      {% if product.featured_image %}
+        <img
+          src="{{ product.featured_image | image_url: width: 1000 }}"
+          alt="{{ product.featured_image.alt | escape }}"
+          width="1000"
+          height="1000"
+        >
+      {% endif %}
+    </div>
+
+    <div class="apex-product-details">
+      <span class="apex-eyebrow">APEX AUTO COLLECTION</span>
+      <h1>{{ product.title }}</h1>
+
+      <p class="apex-product-price">{{ product.selected_or_first_available_variant.price | money }}</p>
+
+      {% if product.description != blank %}
+        <div class="apex-description">
+          {{ product.description }}
+        </div>
+      {% endif %}
+
+      {% form 'product', product %}
+        {% if product.has_only_default_variant == false %}
+          <label for="ApexVariant">Choose an option</label>
+          <select id="ApexVariant" name="id">
+            {% for variant in product.variants %}
+              <option
+                value="{{ variant.id }}"
+                {% if variant == product.selected_or_first_available_variant %}selected{% endif %}
+                {% unless variant.available %}disabled{% endunless %}
+              >
+                {{ variant.title }} — {{ variant.price | money }}
+                {% unless variant.available %} — Sold out{% endunless %}
+              </option>
+            {% endfor %}
+          </select>
+        {% else %}
+          <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
+        {% endif %}
+
+        <label for="ApexQuantity">Quantity</label>
+        <input id="ApexQuantity" type="number" name="quantity" value="1" min="1">
+
+        <button
+          type="submit"
+          class="apex-add-button"
+          {% unless product.selected_or_first_available_variant.available %}disabled{% endunless %}
+        >
+          {% if product.selected_or_first_available_variant.available %}
+            ADD TO BAG
+          {% else %}
+            SOLD OUT
+          {% endif %}
+        </button>
+      {% endform %}
+    </div>
+  </div>
+</section>
+
+<style>
+  .apex-product-page {
+    padding: 70px 6%;
+    background: #080B10;
+  }
+
+  .apex-product-layout {
+    max-width: 1200px;
+    margin: auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 65px;
+    align-items: center;
+  }
+
+  .apex-product-image img {
+    width: 100%;
+    display: block;
+    object-fit: cover;
+    background: #111823;
+  }
+
+  .apex-eyebrow {
+    color: #1687FF;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 3px;
+  }
+
+  .apex-product-details h1 {
+    font-size: clamp(30px, 5vw, 48px);
+    line-height: 1.1;
+    margin: 20px 0;
+  }
+
+  .apex-product-price {
+    color: #1687FF;
+    font-size: 24px;
+    font-weight: 800;
+  }
+
+  .apex-description {
+    color: #AAB7C8;
+    line-height: 1.8;
+    margin: 25px 0;
+  }
+
+  .apex-product-details label {
+    display: block;
+    color: #D6DFEA;
+    margin: 20px 0 8px;
+    font-size: 13px;
+  }
+
+  .apex-product-details select,
+  .apex-product-details input {
+    width: 100%;
+    padding: 14px;
+    background: #111823;
+    border: 1px solid #344256;
+    color: white;
+    border-radius: 0;
+  }
+
+  .apex-add-button {
+    width: 100%;
+    margin-top: 25px;
+    padding: 18px;
+    border: 0;
+    background: #1687FF;
+    color: white;
+    font-weight: 900;
+    letter-spacing: 1px;
+    cursor: pointer;
+  }
+
+  .apex-add-button:disabled {
+    opacity: .5;
+    cursor: not-allowed;
+  }
+
+  @media (max-width: 750px) {
+    .apex-product-layout {
+      grid-template-columns: 1fr;
+      gap: 35px;
+    }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "APEX Product",
+  "settings": [],
+  "presets": [
+    {
+      "name": "APEX Product"
+    }
+  ]
+}
+{% endschema %}
