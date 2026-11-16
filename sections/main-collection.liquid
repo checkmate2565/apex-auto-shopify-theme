@@ -1,0 +1,150 @@
+
+<section class="apex-collection">
+  <div class="apex-collection-heading">
+    <span class="apex-eyebrow">EXPLORE APEX AUTO</span>
+    <h1>{{ collection.title | escape }}</h1>
+    {% if collection.description != blank %}
+      <p>{{ collection.description }}</p>
+    {% endif %}
+  </div>
+
+  {% paginate collection.products by 12 %}
+    <div class="apex-collection-grid">
+      {% for product in collection.products %}
+        <a class="apex-collection-card" href="{{ product.url }}">
+          {% if product.featured_image %}
+            <img
+              src="{{ product.featured_image | image_url: width: 600 }}"
+              alt="{{ product.featured_image.alt | escape }}"
+              width="600"
+              height="600"
+              loading="lazy"
+            >
+          {% endif %}
+          <div class="apex-collection-info">
+            <h2>{{ product.title }}</h2>
+            <span>{{ product.price | money }}</span>
+          </div>
+        </a>
+      {% else %}
+        <p>No products in this collection yet.</p>
+      {% endfor %}
+    </div>
+
+    {% if paginate.pages > 1 %}
+      <nav class="apex-pagination">
+        {% if paginate.previous %}
+          <a href="{{ paginate.previous.url }}">← Previous</a>
+        {% endif %}
+        <span>Page {{ paginate.current_page }} of {{ paginate.pages }}</span>
+        {% if paginate.next %}
+          <a href="{{ paginate.next.url }}">Next →</a>
+        {% endif %}
+      </nav>
+    {% endif %}
+  {% endpaginate %}
+</section>
+
+<style>
+  .apex-collection {
+    background: #080B10;
+    color: white;
+    padding: 70px 6%;
+    min-height: 60vh;
+  }
+
+  .apex-collection-heading {
+    max-width: 1250px;
+    margin: 0 auto 45px;
+  }
+
+  .apex-eyebrow {
+    color: #1687FF;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 3px;
+  }
+
+  .apex-collection-heading h1 {
+    font-size: clamp(36px, 6vw, 60px);
+    margin: 15px 0;
+    font-weight: 900;
+  }
+
+  .apex-collection-heading p {
+    color: #9AA7B8;
+    line-height: 1.7;
+  }
+
+  .apex-collection-grid {
+    max-width: 1250px;
+    margin: auto;
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 20px;
+  }
+
+  .apex-collection-card {
+    background: #111823;
+    border: 1px solid #202B39;
+    transition: border-color .2s, transform .2s;
+  }
+
+  .apex-collection-card:hover {
+    border-color: #1687FF;
+    transform: translateY(-4px);
+  }
+
+  .apex-collection-card img {
+    width: 100%;
+    aspect-ratio: 1;
+    object-fit: cover;
+    display: block;
+  }
+
+  .apex-collection-info {
+    padding: 17px;
+  }
+
+  .apex-collection-info h2 {
+    font-size: 14px;
+    margin: 0 0 10px;
+  }
+
+  .apex-collection-info span {
+    color: #1687FF;
+    font-weight: 800;
+  }
+
+  .apex-pagination {
+    display: flex;
+    justify-content: center;
+    gap: 25px;
+    align-items: center;
+    margin-top: 45px;
+    color: #9AA7B8;
+  }
+
+  .apex-pagination a {
+    color: #1687FF;
+  }
+
+  @media (max-width: 750px) {
+    .apex-collection-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "APEX Collection",
+  "settings": [],
+  "presets": [
+    {
+      "name": "APEX Collection"
+    }
+  ]
+}
+{% endschema %}
