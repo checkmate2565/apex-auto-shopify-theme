@@ -1,0 +1,31 @@
+
+<header class="apex-header">
+  <div class="apex-header-inner">
+    <a class="apex-logo" href="{{ routes.root_url }}">
+      APEX<span>AUTO</span>
+    </a>
+
+    <nav class="apex-nav">
+      <a href="{{ routes.root_url }}">Home</a>
+      <a href="{{ routes.all_products_collection_url }}">Shop</a>
+      <a href="{{ routes.cart_url }}">Cart</a>
+    </nav>
+
+    <a class="apex-cart" href="{{ routes.cart_url }}">
+      <span>Bag</span>
+      <span class="apex-cart-count">{{ cart.item_count }}</span>
+    </a>
+  </div>
+</header>
+
+{% schema %}
+{
+  "name": "APEX Header",
+  "settings": [],
+  "presets": [
+    {
+      "name": "APEX Header"
+    }
+  ]
+}
+{% endschema %}
