@@ -1,0 +1,130 @@
+
+<section class="apex-hero">
+  <div class="apex-hero-content">
+    <span class="apex-eyebrow">DRIVE DIFFERENT. DRIVE APEX.</span>
+
+    <h1>
+      UPGRADE<br>
+      YOUR <span>DRIVE.</span>
+    </h1>
+
+    <p>
+      Discover smart, stylish and practical accessories
+      designed to make every journey better.
+    </p>
+
+    <a href="{{ routes.all_products_collection_url }}" class="apex-button">
+      EXPLORE THE COLLECTION
+      <span>→</span>
+    </a>
+
+    <div class="apex-hero-features">
+      <span>DESIGNED FOR DRIVERS</span>
+      <span>EVERYDAY UPGRADES</span>
+      <span>BUILT AROUND YOU</span>
+    </div>
+  </div>
+</section>
+
+<style>
+  .apex-hero {
+    min-height: 610px;
+    display: flex;
+    align-items: center;
+    padding: 80px 7%;
+    position: relative;
+    overflow: hidden;
+    background:
+      radial-gradient(ellipse at 85% 45%, rgba(22,135,255,.22), transparent 40%),
+      linear-gradient(120deg, #080B10 45%, #101C2B 100%);
+  }
+
+  .apex-hero-content {
+    max-width: 850px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .apex-eyebrow {
+    color: #1687FF;
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 4px;
+  }
+
+  .apex-hero h1 {
+    font-size: clamp(55px, 10vw, 105px);
+    line-height: .95;
+    letter-spacing: -5px;
+    font-weight: 900;
+    margin: 25px 0;
+  }
+
+  .apex-hero h1 span {
+    color: #1687FF;
+  }
+
+  .apex-hero-content > p {
+    max-width: 480px;
+    color: #AAB7C8;
+    font-size: 17px;
+    line-height: 1.8;
+  }
+
+  .apex-button {
+    display: inline-flex;
+    gap: 20px;
+    align-items: center;
+    margin-top: 25px;
+    padding: 18px 25px;
+    background: #1687FF;
+    color: white;
+    font-size: 12px;
+    font-weight: 900;
+    letter-spacing: 1px;
+    transition: background .2s;
+  }
+
+  .apex-button:hover {
+    background: #0068D9;
+  }
+
+  .apex-hero-features {
+    display: flex;
+    gap: 28px;
+    flex-wrap: wrap;
+    margin-top: 65px;
+    color: #77879B;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1px;
+  }
+
+  @media (max-width: 650px) {
+    .apex-hero {
+      min-height: 540px;
+      padding: 65px 23px;
+    }
+
+    .apex-hero h1 {
+      letter-spacing: -3px;
+    }
+
+    .apex-hero-features {
+      gap: 15px;
+      margin-top: 45px;
+    }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "APEX Hero",
+  "settings": [],
+  "presets": [
+    {
+      "name": "APEX Hero"
+    }
+  ]
+}
+{% endschema %}
