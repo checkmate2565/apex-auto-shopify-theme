@@ -1,0 +1,26 @@
+
+[
+  {
+    "name": "APEX Auto Branding",
+    "settings": [
+      {
+        "type": "text",
+        "id": "brand_tagline",
+        "label": "Brand tagline",
+        "default": "Upgrade Your Drive."
+      },
+      {
+        "type": "color",
+        "id": "brand_blue",
+        "label": "Brand blue",
+        "default": "#1687FF"
+      },
+      {
+        "type": "color",
+        "id": "background_color",
+        "label": "Background colour",
+        "default": "#080B10"
+      }
+    ]
+  }
+]
