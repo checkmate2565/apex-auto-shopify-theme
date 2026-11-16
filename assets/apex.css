@@ -1,0 +1,146 @@
+
+:root {
+  --apex-bg: #080B10;
+  --apex-card: #111823;
+  --apex-blue: #1687FF;
+  --apex-white: #FFFFFF;
+  --apex-muted: #9AA7B8;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  background: var(--apex-bg);
+  color: var(--apex-white);
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.apex-header {
+  background: #080B10;
+  border-bottom: 1px solid #202B39;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.apex-header-inner {
+  max-width: 1250px;
+  min-height: 76px;
+  margin: auto;
+  padding: 0 28px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 25px;
+}
+
+.apex-logo {
+  font-size: 25px;
+  font-weight: 900;
+  letter-spacing: 2px;
+}
+
+.apex-logo span {
+  color: var(--apex-blue);
+}
+
+.apex-nav {
+  display: flex;
+  gap: 32px;
+  align-items: center;
+}
+
+.apex-nav a,
+.apex-cart {
+  color: #D6DFEA;
+  font-size: 14px;
+  font-weight: 600;
+  transition: color 0.2s;
+}
+
+.apex-nav a:hover,
+.apex-cart:hover {
+  color: var(--apex-blue);
+}
+
+.apex-cart-count {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  background: var(--apex-blue);
+  color: white;
+  border-radius: 50%;
+  width: 22px;
+  height: 22px;
+  margin-left: 5px;
+  font-size: 12px;
+}
+
+.apex-footer {
+  border-top: 1px solid #202B39;
+  background: #05070B;
+  padding: 55px 25px 25px;
+}
+
+.apex-footer-inner {
+  max-width: 1250px;
+  margin: auto;
+}
+
+.apex-footer-inner > p {
+  color: var(--apex-muted);
+}
+
+.apex-footer-links {
+  display: flex;
+  gap: 25px;
+  flex-wrap: wrap;
+  margin: 28px 0;
+}
+
+.apex-footer-links a {
+  color: #D6DFEA;
+  font-size: 14px;
+}
+
+.apex-footer-links a:hover {
+  color: var(--apex-blue);
+}
+
+.apex-copyright {
+  border-top: 1px solid #202B39;
+  padding-top: 22px;
+  font-size: 12px;
+}
+
+@media (max-width: 650px) {
+  .apex-header-inner {
+    padding: 0 16px;
+    min-height: 65px;
+  }
+
+  .apex-logo {
+    font-size: 20px;
+  }
+
+  .apex-nav {
+    gap: 14px;
+  }
+
+  .apex-nav a,
+  .apex-cart {
+    font-size: 12px;
+  }
+}
