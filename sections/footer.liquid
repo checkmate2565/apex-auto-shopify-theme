@@ -1,0 +1,32 @@
+
+<footer class="apex-footer">
+  <div class="apex-footer-inner">
+    <a class="apex-logo" href="{{ routes.root_url }}">
+      APEX<span>AUTO</span>
+    </a>
+
+    <p>Upgrade Your Drive.</p>
+
+    <div class="apex-footer-links">
+      <a href="{{ routes.all_products_collection_url }}">Shop all</a>
+      <a href="{{ routes.search_url }}">Search</a>
+      <a href="{{ routes.cart_url }}">Your cart</a>
+    </div>
+
+    <p class="apex-copyright">
+      © {{ 'now' | date: '%Y' }} {{ shop.name }}. All rights reserved.
+    </p>
+  </div>
+</footer>
+
+{% schema %}
+{
+  "name": "APEX Footer",
+  "settings": [],
+  "presets": [
+    {
+      "name": "APEX Footer"
+    }
+  ]
+}
+{% endschema %}
