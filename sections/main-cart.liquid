@@ -1,0 +1,199 @@
+
+<section class="apex-cart-page">
+  <div class="apex-cart-container">
+    <span class="apex-eyebrow">YOUR APEX ORDER</span>
+    <h1>YOUR <span>BAG.</span></h1>
+
+    {% if cart.item_count == 0 %}
+      <div class="apex-empty-cart">
+        <h2>Your bag is currently empty.</h2>
+        <p>Discover something to upgrade your drive.</p>
+        <a href="{{ routes.all_products_collection_url }}" class="apex-cart-button">
+          EXPLORE PRODUCTS →
+        </a>
+      </div>
+    {% else %}
+      <form action="{{ routes.cart_url }}" method="post">
+        {% for item in cart.items %}
+          <div class="apex-cart-item">
+            {% if item.image %}
+              <img
+                src="{{ item.image | image_url: width: 200 }}"
+                alt="{{ item.image.alt | escape }}"
+                width="200"
+                height="200"
+              >
+            {% endif %}
+
+            <div class="apex-cart-item-info">
+              <h2><a href="{{ item.url }}">{{ item.product.title }}</a></h2>
+              <p>{{ item.final_price | money }}</p>
+              <label for="ApexQuantity{{ item.index }}">Quantity</label>
+              <input
+                id="ApexQuantity{{ item.index }}"
+                type="number"
+                name="updates[]"
+                value="{{ item.quantity }}"
+                min="0"
+              >
+              <a href="{{ item.url_to_remove }}" class="apex-remove">Remove</a>
+            </div>
+
+            <strong>{{ item.final_line_price | money }}</strong>
+          </div>
+        {% endfor %}
+
+        <div class="apex-cart-total">
+          <p>Subtotal <strong>{{ cart.total_price | money }}</strong></p>
+          <p class="apex-cart-note">Shipping and taxes calculated at checkout.</p>
+          <button type="submit" name="update" class="apex-update-button">UPDATE BAG</button>
+          <button type="submit" name="checkout" class="apex-cart-button">PROCEED TO CHECKOUT →</button>
+        </div>
+      </form>
+    {% endif %}
+  </div>
+</section>
+
+<style>
+  .apex-cart-page {
+    background: #080B10;
+    color: white;
+    padding: 65px 6%;
+    min-height: 60vh;
+  }
+
+  .apex-cart-container {
+    max-width: 1050px;
+    margin: auto;
+  }
+
+  .apex-eyebrow {
+    color: #1687FF;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 3px;
+  }
+
+  .apex-cart-container h1 {
+    font-size: 48px;
+    font-weight: 900;
+  }
+
+  .apex-cart-container h1 span {
+    color: #1687FF;
+  }
+
+  .apex-empty-cart {
+    background: #111823;
+    padding: 40px;
+    text-align: center;
+  }
+
+  .apex-empty-cart p,
+  .apex-cart-note {
+    color: #9AA7B8;
+  }
+
+  .apex-cart-item {
+    display: flex;
+    align-items: center;
+    gap: 22px;
+    padding: 25px 0;
+    border-bottom: 1px solid #202B39;
+  }
+
+  .apex-cart-item img {
+    width: 115px;
+    height: 115px;
+    object-fit: cover;
+  }
+
+  .apex-cart-item-info {
+    flex: 1;
+  }
+
+  .apex-cart-item-info h2 {
+    font-size: 17px;
+  }
+
+  .apex-cart-item-info p {
+    color: #1687FF;
+    font-weight: 700;
+  }
+
+  .apex-cart-item-info input {
+    display: block;
+    width: 75px;
+    margin-top: 8px;
+    padding: 9px;
+    background: #111823;
+    border: 1px solid #344256;
+    color: white;
+  }
+
+  .apex-remove {
+    display: inline-block;
+    margin-top: 12px;
+    color: #9AA7B8;
+    font-size: 12px;
+    text-decoration: underline;
+  }
+
+  .apex-cart-total {
+    max-width: 420px;
+    margin: 35px 0 0 auto;
+  }
+
+  .apex-cart-total > p:first-child {
+    display: flex;
+    justify-content: space-between;
+    font-size: 19px;
+  }
+
+  .apex-update-button,
+  .apex-cart-button {
+    display: block;
+    width: 100%;
+    padding: 17px;
+    margin-top: 12px;
+    text-align: center;
+    border: 0;
+    font-weight: 900;
+    letter-spacing: 1px;
+    cursor: pointer;
+  }
+
+  .apex-update-button {
+    background: #111823;
+    color: white;
+  }
+
+  .apex-cart-button {
+    background: #1687FF;
+    color: white;
+    text-decoration: none;
+  }
+
+  @media (max-width: 550px) {
+    .apex-cart-item {
+      gap: 12px;
+    }
+
+    .apex-cart-item img {
+      width: 80px;
+      height: 80px;
+    }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "APEX Cart",
+  "settings": [],
+  "presets": [
+    {
+      "name": "APEX Cart"
+    }
+  ]
+}
+{% endschema %}
