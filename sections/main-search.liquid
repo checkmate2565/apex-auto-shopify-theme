@@ -1,0 +1,156 @@
+
+<section class="apex-search-page">
+  <div class="apex-search-container">
+    <span class="apex-eyebrow">FIND YOUR NEXT UPGRADE</span>
+    <h1>SEARCH <span>APEX.</span></h1>
+
+    <form action="{{ routes.search_url }}" method="get" role="search">
+      <input
+        type="search"
+        name="q"
+        value="{{ search.terms | escape }}"
+        placeholder="Search car accessories..."
+        aria-label="Search products"
+      >
+      <input type="hidden" name="type" value="product">
+      <button type="submit">SEARCH →</button>
+    </form>
+
+    {% if search.performed %}
+      <h2>Search results</h2>
+
+      <div class="apex-search-grid">
+        {% for item in search.results %}
+          {% if item.object_type == 'product' %}
+            <a class="apex-search-card" href="{{ item.url }}">
+              {% if item.featured_image %}
+                <img
+                  src="{{ item.featured_image | image_url: width: 500 }}"
+                  alt="{{ item.featured_image.alt | escape }}"
+                  width="500"
+                  height="500"
+                  loading="lazy"
+                >
+              {% endif %}
+              <h3>{{ item.title }}</h3>
+              <span>{{ item.price | money }}</span>
+            </a>
+          {% endif %}
+        {% else %}
+          <p>No matching products found. Try another search.</p>
+        {% endfor %}
+      </div>
+    {% endif %}
+  </div>
+</section>
+
+<style>
+  .apex-search-page {
+    background: #080B10;
+    color: white;
+    min-height: 65vh;
+    padding: 75px 6%;
+  }
+
+  .apex-search-container {
+    max-width: 1200px;
+    margin: auto;
+  }
+
+  .apex-eyebrow {
+    color: #1687FF;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 3px;
+  }
+
+  .apex-search-container h1 {
+    font-size: clamp(38px, 6vw, 65px);
+    font-weight: 900;
+  }
+
+  .apex-search-container h1 span {
+    color: #1687FF;
+  }
+
+  .apex-search-container form {
+    display: flex;
+    gap: 10px;
+    margin: 35px 0 50px;
+  }
+
+  .apex-search-container form input[type="search"] {
+    flex: 1;
+    min-width: 0;
+    padding: 17px;
+    background: #111823;
+    border: 1px solid #344256;
+    color: white;
+  }
+
+  .apex-search-container button {
+    padding: 0 25px;
+    border: 0;
+    background: #1687FF;
+    color: white;
+    font-weight: 900;
+  }
+
+  .apex-search-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 20px;
+  }
+
+  .apex-search-card {
+    background: #111823;
+    padding-bottom: 15px;
+  }
+
+  .apex-search-card img {
+    width: 100%;
+    aspect-ratio: 1;
+    object-fit: cover;
+  }
+
+  .apex-search-card h3,
+  .apex-search-card span {
+    display: block;
+    margin: 12px;
+  }
+
+  .apex-search-card h3 {
+    font-size: 14px;
+  }
+
+  .apex-search-card span {
+    color: #1687FF;
+    font-weight: 800;
+  }
+
+  @media (max-width: 750px) {
+    .apex-search-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .apex-search-container form {
+      flex-wrap: wrap;
+    }
+
+    .apex-search-container button {
+      min-height: 50px;
+    }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "APEX Search",
+  "settings": [],
+  "presets": [
+    {
+      "name": "APEX Search"
+    }
+  ]
+}
+{% endschema %}
