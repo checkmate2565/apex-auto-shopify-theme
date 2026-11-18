@@ -95,12 +95,25 @@
     transform: translateY(-4px);
   }
 
-  .apex-collection-card img {
-    width: 100%;
-    aspect-ratio: 1;
-    object-fit: cover;
-    display: block;
-  }
+  
+.apex-collection-card {
+  background: #111823;
+  border: 1px solid #202B39;
+  transition: border-color .2s, transform .2s;
+  overflow: hidden;
+}
+
+.apex-collection-card img {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  height: auto;
+  object-fit: contain;
+  object-position: center;
+  display: block;
+  padding: 12px;
+  background: #111823;
+}
+
 
   .apex-collection-info {
     padding: 17px;
