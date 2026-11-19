@@ -4,10 +4,10 @@
     <div class="apex-product-image">
       {% if product.featured_image %}
         <img
-          src="{{ product.featured_image | image_url: width: 1000 }}"
-          alt="{{ product.featured_image.alt | escape }}"
-          width="1000"
-          height="1000"
+          src="{{ product.featured_image | image_url: width: 1200 }}"
+          alt="{{ product.featured_image.alt | default: product.title | escape }}"
+          width="1200"
+          height="1200"
         >
       {% endif %}
     </div>
@@ -16,7 +16,9 @@
       <span class="apex-eyebrow">APEX AUTO COLLECTION</span>
       <h1>{{ product.title }}</h1>
 
-      <p class="apex-product-price">{{ product.selected_or_first_available_variant.price | money }}</p>
+      <p class="apex-product-price">
+        {{ product.selected_or_first_available_variant.price | money }}
+      </p>
 
       {% if product.description != blank %}
         <div class="apex-description">
@@ -63,92 +65,153 @@
 </section>
 
 <style>
+.apex-product-page,
+.apex-product-page * {
+  box-sizing: border-box;
+}
+
+.apex-product-page {
+  width: 100%;
+  padding: 55px 5%;
+  background: #080B10;
+  color: white;
+  overflow: hidden;
+}
+
+.apex-product-layout {
+  width: 100%;
+  max-width: 1200px;
+  margin: auto;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 55px;
+  align-items: center;
+}
+
+.apex-product-image {
+  width: 100%;
+  min-width: 0;
+  background: #111823;
+  border: 1px solid #202B39;
+  border-radius: 8px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.apex-product-image img {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: 650px;
+  object-fit: contain;
+  object-position: center;
+  padding: 15px;
+}
+
+.apex-product-details {
+  min-width: 0;
+  width: 100%;
+}
+
+.apex-eyebrow {
+  color: #1687FF;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 3px;
+}
+
+.apex-product-details h1 {
+  font-size: clamp(27px, 4vw, 46px);
+  line-height: 1.15;
+  margin: 18px 0;
+  font-weight: 900;
+  overflow-wrap: anywhere;
+}
+
+.apex-product-price {
+  color: #1687FF;
+  font-size: 24px;
+  font-weight: 800;
+}
+
+.apex-description {
+  color: #AAB7C8;
+  line-height: 1.8;
+  margin: 25px 0;
+}
+
+.apex-product-details label {
+  display: block;
+  color: #D6DFEA;
+  margin: 20px 0 8px;
+  font-size: 13px;
+}
+
+.apex-product-details select,
+.apex-product-details input {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  padding: 14px;
+  background: #111823;
+  border: 1px solid #344256;
+  color: white;
+  border-radius: 4px;
+  font-size: 16px;
+}
+
+.apex-add-button {
+  display: block;
+  width: 100%;
+  margin-top: 25px;
+  padding: 18px;
+  border: 0;
+  border-radius: 4px;
+  background: #1687FF;
+  color: white;
+  font-weight: 900;
+  letter-spacing: 1px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.apex-add-button:disabled {
+  opacity: .5;
+  cursor: not-allowed;
+}
+
+@media (max-width: 750px) {
   .apex-product-page {
-    padding: 70px 6%;
-    background: #080B10;
+    padding: 25px 16px 45px;
   }
 
   .apex-product-layout {
-    max-width: 1200px;
-    margin: auto;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 65px;
-    align-items: center;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 25px;
+  }
+
+  .apex-product-image {
+    width: 100%;
   }
 
   .apex-product-image img {
     width: 100%;
-    display: block;
-    object-fit: cover;
-    background: #111823;
-  }
-
-  .apex-eyebrow {
-    color: #1687FF;
-    font-size: 11px;
-    font-weight: 800;
-    letter-spacing: 3px;
+    height: auto;
+    max-height: 55vh;
+    padding: 12px;
+    object-fit: contain;
   }
 
   .apex-product-details h1 {
-    font-size: clamp(30px, 5vw, 48px);
-    line-height: 1.1;
-    margin: 20px 0;
+    font-size: 29px;
   }
 
   .apex-product-price {
-    color: #1687FF;
-    font-size: 24px;
-    font-weight: 800;
+    font-size: 22px;
   }
-
-  .apex-description {
-    color: #AAB7C8;
-    line-height: 1.8;
-    margin: 25px 0;
-  }
-
-  .apex-product-details label {
-    display: block;
-    color: #D6DFEA;
-    margin: 20px 0 8px;
-    font-size: 13px;
-  }
-
-  .apex-product-details select,
-  .apex-product-details input {
-    width: 100%;
-    padding: 14px;
-    background: #111823;
-    border: 1px solid #344256;
-    color: white;
-    border-radius: 0;
-  }
-
-  .apex-add-button {
-    width: 100%;
-    margin-top: 25px;
-    padding: 18px;
-    border: 0;
-    background: #1687FF;
-    color: white;
-    font-weight: 900;
-    letter-spacing: 1px;
-    cursor: pointer;
-  }
-
-  .apex-add-button:disabled {
-    opacity: .5;
-    cursor: not-allowed;
-  }
-
-  @media (max-width: 750px) {
-    .apex-product-layout {
-      grid-template-columns: 1fr;
-      gap: 35px;
-    }
-  }
+}
 </style>
 
 {% schema %}
