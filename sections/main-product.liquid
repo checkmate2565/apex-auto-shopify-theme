@@ -2,32 +2,14 @@
 <section class="apex-product-page">
   <div class="apex-product-layout">
     
-<div class="apex-product-gallery">
-  <div class="apex-product-image">
-    {% if product.featured_image %}
-      <img
-        src="{{ product.featured_image | image_url: width: 1200 }}"
-        alt="{{ product.featured_image.alt | default: product.title | escape }}"
-        width="1200"
-        height="1200"
-      >
-    {% endif %}
-  </div>
-
-  {% if product.images.size > 1 %}
-    <div class="apex-product-thumbnails">
-      {% for image in product.images %}
-        <div class="apex-product-thumbnail">
-          <img
-            src="{{ image | image_url: width: 300 }}"
-            alt="{{ image.alt | default: product.title | escape }}"
-            loading="lazy"
-            width="300"
-            height="300"
-          >
-        </div>
-      {% endfor %}
-    </div>
+<div class="apex-product-image">
+  {% if product.featured_image %}
+    <img
+      src="{{ product.featured_image | image_url: width: 1200 }}"
+      alt="{{ product.featured_image.alt | default: product.title | escape }}"
+      width="1200"
+      height="1200"
+    >
   {% endif %}
 </div>
 
