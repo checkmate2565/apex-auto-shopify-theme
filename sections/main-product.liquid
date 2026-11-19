@@ -1,18 +1,18 @@
 
 <section class="apex-product-page">
   <div class="apex-product-layout">
-    
-<div class="apex-product-image">
-  {% if product.featured_image %}
-    <img
-      src="{{ product.featured_image | image_url: width: 1200 }}"
-      alt="{{ product.featured_image.alt | default: product.title | escape }}"
-      width="1200"
-      height="1200"
-    >
-  {% endif %}
-</div>
 
+    <div class="apex-product-image" id="ApexMainImage">
+      {% if product.featured_image %}
+        <img
+          src="{{ product.featured_image | image_url: width: 1200 }}"
+          alt="{{ product.featured_image.alt | default: product.title | escape }}"
+          width="1200"
+          height="1200"
+        >
+        <span class="apex-image-hint">TAP TO VIEW GALLERY</span>
+      {% endif %}
+    </div>
 
     <div class="apex-product-details">
       <span class="apex-eyebrow">APEX AUTO COLLECTION</span>
@@ -66,6 +66,18 @@
   </div>
 </section>
 
+<div class="apex-gallery" id="ApexGallery" aria-hidden="true">
+  <button class="apex-gallery-close" id="ApexGalleryClose" aria-label="Close gallery">&times;</button>
+  <button class="apex-gallery-arrow apex-gallery-prev" id="ApexGalleryPrev" aria-label="Previous image">&#10094;</button>
+
+  <div class="apex-gallery-content">
+    <img id="ApexGalleryImage" src="" alt="">
+    <p id="ApexGalleryCount"></p>
+  </div>
+
+  <button class="apex-gallery-arrow apex-gallery-next" id="ApexGalleryNext" aria-label="Next image">&#10095;</button>
+</div>
+
 <style>
 .apex-product-page,
 .apex-product-page * {
@@ -91,6 +103,7 @@
 }
 
 .apex-product-image {
+  position: relative;
   width: 100%;
   min-width: 0;
   background: #111823;
@@ -100,6 +113,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  cursor: pointer;
 }
 
 .apex-product-image img {
@@ -110,6 +124,20 @@
   object-fit: contain;
   object-position: center;
   padding: 15px;
+}
+
+.apex-image-hint {
+  position: absolute;
+  bottom: 15px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(8, 11, 16, .85);
+  color: white;
+  padding: 9px 14px;
+  font-size: 10px;
+  letter-spacing: 2px;
+  border-radius: 3px;
+  white-space: nowrap;
 }
 
 .apex-product-details {
@@ -184,6 +212,84 @@
   cursor: not-allowed;
 }
 
+/* Full-screen product gallery */
+.apex-gallery {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 999999;
+  background: rgba(4, 7, 12, .97);
+  align-items: center;
+  justify-content: center;
+  padding: 65px 55px;
+}
+
+.apex-gallery.is-open {
+  display: flex;
+}
+
+.apex-gallery-content {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+}
+
+.apex-gallery-content img {
+  max-width: 100%;
+  max-height: 85%;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  user-select: none;
+}
+
+.apex-gallery-content p {
+  color: #AAB7C8;
+  font-size: 13px;
+}
+
+.apex-gallery-close,
+.apex-gallery-arrow {
+  position: absolute;
+  border: 0;
+  color: white;
+  background: rgba(255,255,255,.1);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.apex-gallery-close {
+  top: 20px;
+  right: 25px;
+  width: 45px;
+  height: 45px;
+  font-size: 32px;
+  border-radius: 50%;
+}
+
+.apex-gallery-arrow {
+  top: 50%;
+  transform: translateY(-50%);
+  width: 45px;
+  height: 55px;
+  font-size: 22px;
+  border-radius: 4px;
+}
+
+.apex-gallery-prev {
+  left: 15px;
+}
+
+.apex-gallery-next {
+  right: 15px;
+}
+
 @media (max-width: 750px) {
   .apex-product-page {
     padding: 25px 16px 45px;
@@ -213,8 +319,101 @@
   .apex-product-price {
     font-size: 22px;
   }
+
+  .apex-gallery {
+    padding: 60px 45px;
+  }
+
+  .apex-gallery-arrow {
+    width: 32px;
+    height: 45px;
+    font-size: 17px;
+  }
+
+  .apex-gallery-prev {
+    left: 5px;
+  }
+
+  .apex-gallery-next {
+    right: 5px;
+  }
 }
 </style>
+
+<script>
+(function () {
+  const mainImage = document.getElementById('ApexMainImage');
+  const gallery = document.getElementById('ApexGallery');
+  const galleryImage = document.getElementById('ApexGalleryImage');
+  const counter = document.getElementById('ApexGalleryCount');
+  const closeButton = document.getElementById('ApexGalleryClose');
+  const prevButton = document.getElementById('ApexGalleryPrev');
+  const nextButton = document.getElementById('ApexGalleryNext');
+
+  if (!mainImage || !gallery || !galleryImage) return;
+
+  const images = [
+    {% for image in product.images %}
+      {{ image | image_url: width: 1600 | json }}{% unless forloop.last %},{% endunless %}
+    {% endfor %}
+  ];
+
+  if (!images.length) return;
+
+  let currentIndex = 0;
+  let touchStartX = 0;
+
+  function showImage(index) {
+    currentIndex = (index + images.length) % images.length;
+    galleryImage.src = images[currentIndex];
+    counter.textContent = (currentIndex + 1) + ' / ' + images.length;
+    prevButton.style.display = images.length > 1 ? 'flex' : 'none';
+    nextButton.style.display = images.length > 1 ? 'flex' : 'none';
+  }
+
+  function openGallery() {
+    showImage(0);
+    gallery.classList.add('is-open');
+    gallery.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeGallery() {
+    gallery.classList.remove('is-open');
+    gallery.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+  }
+
+  mainImage.addEventListener('click', openGallery);
+  closeButton.addEventListener('click', closeGallery);
+  prevButton.addEventListener('click', () => showImage(currentIndex - 1));
+  nextButton.addEventListener('click', () => showImage(currentIndex + 1));
+
+  gallery.addEventListener('click', function(event) {
+    if (event.target === gallery) closeGallery();
+  });
+
+  document.addEventListener('keydown', function(event) {
+    if (!gallery.classList.contains('is-open')) return;
+    if (event.key === 'Escape') closeGallery();
+    if (event.key === 'ArrowLeft') showImage(currentIndex - 1);
+    if (event.key === 'ArrowRight') showImage(currentIndex + 1);
+  });
+
+  gallery.addEventListener('touchstart', function(event) {
+    touchStartX = event.changedTouches[0].screenX;
+  }, { passive: true });
+
+  gallery.addEventListener('touchend', function(event) {
+    const touchEndX = event.changedTouches[0].screenX;
+    const difference = touchStartX - touchEndX;
+
+    if (Math.abs(difference) > 45) {
+      showImage(currentIndex + (difference > 0 ? 1 : -1));
+    }
+  }, { passive: true });
+})();
+</script>
 
 {% schema %}
 {
